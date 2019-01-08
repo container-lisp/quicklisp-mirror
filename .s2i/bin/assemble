@@ -1,0 +1,26 @@
+#!/bin/bash
+
+set -x
+
+/usr/libexec/s2i/assemble
+rc=$?
+
+if [ $rc -eq 0 ]; then
+
+  ln -s `pwd`/quicklisp/local-projects/quicklisp-mirror/quicklisp-mirror-tool ./quicklisp/local-projects
+  ln -s `pwd`/quicklisp/local-projects/quicklisp-mirror/sync-quicklisp ./quicklisp/local-projects
+  export APP_SYSTEM_NAME=sync-quicklisp
+  export APP_SCRIPT=s.lisp
+  APP_MEM=4092 /usr/libexec/s2i/run
+  # Trim the version list
+  # tail -1 mirror/dist/quicklisp-versions.txt > mirror/dist/quicklisp-versions.txt
+  export APP_SCRIPT=s2.lisp
+  APP_MEM=4092 /usr/libexec/s2i/run
+  rc=$?
+  ln -s `pwd`/quicklisp/local-projects/archive/quicklisp `pwd`/quicklisp/local-projects/quicklisp-mirror/archive
+  rm -fr ./quicklisp/local-projects/quicklisp-mirror/quicklisp-mirror-tool
+  rm -fr ./quicklisp/local-projects/quicklisp-mirror/sync-quicklisp
+
+fi
+
+exit $rc

@@ -1,0 +1,2 @@
+APP_SYSTEM_NAME=quicklisp-mirror
+APP_EVAL="(quicklisp-mirror:start-quicklisp-mirror)"
