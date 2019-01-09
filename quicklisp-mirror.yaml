@@ -1,0 +1,96 @@
+apiVersion: v1
+items:
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    labels:
+      app: quicklisp-mirror
+    name: quicklisp-mirror
+  spec:
+    tags:
+    - from:
+        kind: DockerImage
+        name: atgreen/quicklisp-mirror
+      name: latest
+      referencePolicy:
+        type: Source
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    labels:
+      app: quicklisp-mirror
+    name: quicklisp-mirror
+  spec:
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      app: quicklisp-mirror
+      deploymentconfig: quicklisp-mirror
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        labels:
+          app: quicklisp-mirror
+          deploymentconfig: quicklisp-mirror
+      spec:
+        containers:
+        - image: containerlisp/quicklisp-mirror:latest
+          imagePullPolicy: Always
+          name: quicklisp-mirror
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources: {}
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - quicklisp-mirror
+        from:
+          kind: ImageStreamTag
+          name: quicklisp-mirror:latest
+          namespace: container-lisp
+      type: ImageChange
+- apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app: quicklisp-mirror
+    name: quicklisp-mirror
+  spec:
+    ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      deploymentconfig: quicklisp-mirror
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    labels:
+      app: quicklisp-mirror
+    name: quicklisp-mirror
+  spec:
+    port:
+      targetPort: 8080-tcp
+    to:
+      kind: Service
+      name: quicklisp-mirror
+      weight: 100
+    wildcardPolicy: None
+kind: List
