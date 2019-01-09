@@ -15,6 +15,11 @@ This is done by [patching the quicklisp client
 code](https://github.com/container-lisp/s2i-lisp/commit/7367dcda4d70bf24eb995b1cdc211c2153de3fd4)
 in the s2i builder image.  Better suggestions [welcome](https://github.com/container-lisp/s2i-lisp/issues/new)!
 
+Deploy `quicklisp-mirror` in OpenShift like so:
+```
+oc create -f https://raw.githubusercontent.com/container-lisp/quicklisp-mirror/master/quicklisp-mirror.yaml
+```
+
 Thanks, as always, to Zach Beane for
 [Quicklisp](https://www.quicklisp.org/beta).
 
