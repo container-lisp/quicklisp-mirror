@@ -14,7 +14,7 @@
 (in-package #:quicklisp-mirror-tool.variables)
 
 ;;; hostname
-(defvar *quicklisp-mirror-hostname* "localhost:8080"
+(defvar *quicklisp-mirror-hostname* "localhost:80"
   "Definition for your mirror's hostname, e.g. \"beta.quicklisp.org\"(which
 is also the original hostname of Quicklisp).")
 

@@ -24,7 +24,7 @@
 
 (defvar *hunchentoot-server* nil)
 
-(defvar *default-port-string* "8080")
+(defvar *default-port-string* "80")
 
 ;; Start the web app.
 

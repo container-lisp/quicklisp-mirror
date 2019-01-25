@@ -47,7 +47,7 @@ items:
           imagePullPolicy: Always
           name: quicklisp-mirror
           ports:
-          - containerPort: 8080
+          - containerPort: 80
             protocol: TCP
           resources: {}
     triggers:
@@ -69,10 +69,10 @@ items:
     name: quicklisp-mirror
   spec:
     ports:
-    - name: 8080-tcp
-      port: 8080
+    - name: 80-tcp
+      port: 80
       protocol: TCP
-      targetPort: 8080
+      targetPort: 80
     selector:
       deploymentconfig: quicklisp-mirror
     sessionAffinity: None
@@ -87,7 +87,7 @@ items:
     name: quicklisp-mirror
   spec:
     port:
-      targetPort: 8080-tcp
+      targetPort: 80-tcp
     to:
       kind: Service
       name: quicklisp-mirror
