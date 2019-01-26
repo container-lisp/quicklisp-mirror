@@ -10,7 +10,7 @@ items:
     tags:
     - from:
         kind: DockerImage
-        name: atgreen/quicklisp-mirror
+        name: containerlisp/quicklisp-mirror
       name: latest
       referencePolicy:
         type: Source
@@ -47,7 +47,7 @@ items:
           imagePullPolicy: Always
           name: quicklisp-mirror
           ports:
-          - containerPort: 80
+          - containerPort: 8080
             protocol: TCP
           resources: {}
     triggers:
@@ -69,28 +69,14 @@ items:
     name: quicklisp-mirror
   spec:
     ports:
-    - name: 80-tcp
-      port: 80
+    - name: 8080-tcp
+      port: 8080
       protocol: TCP
-      targetPort: 80
+      targetPort: 8080
     selector:
       deploymentconfig: quicklisp-mirror
     sessionAffinity: None
     type: ClusterIP
   status:
     loadBalancer: {}
-- apiVersion: route.openshift.io/v1
-  kind: Route
-  metadata:
-    labels:
-      app: quicklisp-mirror
-    name: quicklisp-mirror
-  spec:
-    port:
-      targetPort: 80-tcp
-    to:
-      kind: Service
-      name: quicklisp-mirror
-      weight: 100
-    wildcardPolicy: None
 kind: List
