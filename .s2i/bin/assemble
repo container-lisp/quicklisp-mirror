@@ -7,6 +7,12 @@ rc=$?
 
 if [ $rc -eq 0 ]; then
 
+  # Temporarily include local hunchentoot while we wait
+  # for fix to https://github.com/edicl/hunchentoot/issues/157
+  # to roll into quicklisp.
+  ln -s `pwd`/quicklisp/local-projects/quicklisp-mirror/hunchentoot ./quicklisp/local-projects
+  rm -rf ./quicklisp/dists/quicklisp/software/hunchentoot*
+  
   ln -s `pwd`/quicklisp/local-projects/quicklisp-mirror/quicklisp-mirror-tool ./quicklisp/local-projects
   ln -s `pwd`/quicklisp/local-projects/quicklisp-mirror/sync-quicklisp ./quicklisp/local-projects
   export APP_SYSTEM_NAME=sync-quicklisp
@@ -20,12 +26,7 @@ if [ $rc -eq 0 ]; then
   ln -s `pwd`/quicklisp/local-projects/archive/quicklisp `pwd`/quicklisp/local-projects/quicklisp-mirror/archive
   rm -fr ./quicklisp/local-projects/quicklisp-mirror/quicklisp-mirror-tool
   rm -fr ./quicklisp/local-projects/quicklisp-mirror/sync-quicklisp
-
-  # Temporarily include local hunchentoot while we wait
-  # for fix to https://github.com/edicl/hunchentoot/issues/157
-  # to roll into quicklisp.
-  ln -s `pwd`/quicklisp/local-projects/quicklisp-mirror/hunchentoot ./quicklisp/local-projects
-  
+ 
 fi
 
 exit $rc
