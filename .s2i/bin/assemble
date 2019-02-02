@@ -2,19 +2,19 @@
 
 set -x
 
+# Temporarily include local hunchentoot while we wait
+# for fix to https://github.com/edicl/hunchentoot/issues/157
+# to roll into quicklisp.
+mv $(pwd)/quicklisp/local-projects/quicklisp-mirror/hunchentoot ./quicklisp/local-projects
+rm -rf ./quicklisp/dists/quicklisp/software/hunchentoot*
+
 /usr/libexec/s2i/assemble
 rc=$?
 
 if [ $rc -eq 0 ]; then
 
-  # Temporarily include local hunchentoot while we wait
-  # for fix to https://github.com/edicl/hunchentoot/issues/157
-  # to roll into quicklisp.
-  ln -s `pwd`/quicklisp/local-projects/quicklisp-mirror/hunchentoot ./quicklisp/local-projects
-  rm -rf ./quicklisp/dists/quicklisp/software/hunchentoot*
-  
-  ln -s `pwd`/quicklisp/local-projects/quicklisp-mirror/quicklisp-mirror-tool ./quicklisp/local-projects
-  ln -s `pwd`/quicklisp/local-projects/quicklisp-mirror/sync-quicklisp ./quicklisp/local-projects
+  mv $(pwd)/quicklisp/local-projects/quicklisp-mirror/quicklisp-mirror-tool ./quicklisp/local-projects
+  mv $(pwd)/quicklisp/local-projects/quicklisp-mirror/sync-quicklisp ./quicklisp/local-projects
   export APP_SYSTEM_NAME=sync-quicklisp
   export APP_SCRIPT=s.lisp
   APP_MEM=4092 /usr/libexec/s2i/run
