@@ -8,7 +8,7 @@ set -x
 
 mkdir -vp quicklisp/local-projects
 ls -l /tmp/src
-mv /tmp/src/quicklisp-mirror/hunchentoot quicklisp/local-projects
+mv /tmp/src/hunchentoot quicklisp/local-projects
 rm -rf quicklisp/dists/quicklisp/software/hunchentoot*
 
 /usr/libexec/s2i/assemble
