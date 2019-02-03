@@ -5,8 +5,9 @@ set -x
 # Temporarily include local hunchentoot while we wait
 # for fix to https://github.com/edicl/hunchentoot/issues/157
 # to roll into quicklisp.
-mv $(pwd)/quicklisp/local-projects/quicklisp-mirror/hunchentoot ./quicklisp/local-projects
-rm -rf ./quicklisp/dists/quicklisp/software/hunchentoot*
+mkdir -vp quicklisp/local-projects
+ls -l /tmp/src
+mv /tmp/src/quicklisp-mirror/hunchentoot quicklisp/local-projects
 
 /usr/libexec/s2i/assemble
 rc=$?
