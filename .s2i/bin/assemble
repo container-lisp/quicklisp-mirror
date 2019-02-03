@@ -9,6 +9,7 @@ mkdir -vp quicklisp/local-projects
 for PKG in /tmp/src/local-projects/*; do
     mv ${PKG} quicklisp/local-projects;
     rm -rf quicklisp/dists/quicklisp/software/$(basename ${PKG})-*
+    rm -rf $(find ~/.cache/common-lisp -name $(basename ${PKG})-*)
 done
 ls -l quicklisp/local-projects
 
