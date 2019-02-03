@@ -7,7 +7,8 @@ set -x
 # to roll into quicklisp.
 mkdir -vp quicklisp/local-projects
 for PKG in /tmp/src/local-projects/*; do
-    mv $PKG quicklisp/local-projects;
+    mv ${PKG} quicklisp/local-projects;
+    rm -rf quicklisp/dists/quicklisp/software/${PKG}-*
 done
 ls -l quicklisp/local-projects
 
@@ -16,15 +17,17 @@ rc=$?
 
 if [ $rc -eq 0 ]; then
 
-  export APP_SYSTEM_NAME=sync-quicklisp
-  export APP_SCRIPT=s.lisp
-  APP_MEM=4092 /usr/libexec/s2i/run
-  # Trim the version list
-  # tail -1 mirror/dist/quicklisp-versions.txt > mirror/dist/quicklisp-versions.txt
-  export APP_SCRIPT=s2.lisp
-  APP_MEM=4092 /usr/libexec/s2i/run
-  rc=$?
-  ln -s `pwd`/quicklisp/local-projects/archive/quicklisp `pwd`/quicklisp/local-projects/quicklisp-mirror/archive
+    find /opt/app-root/quicklisp/local-projects/quicklisp-mirror
+    
+    export APP_SYSTEM_NAME=sync-quicklisp
+    export APP_SCRIPT=s.lisp
+    APP_MEM=4092 /usr/libexec/s2i/run
+    # Trim the version list
+    # tail -1 mirror/dist/quicklisp-versions.txt > mirror/dist/quicklisp-versions.txt
+    export APP_SCRIPT=s2.lisp
+    APP_MEM=4092 /usr/libexec/s2i/run
+    rc=$?
+    ln -s `pwd`/quicklisp/local-projects/archive/quicklisp `pwd`/quicklisp/local-projects/quicklisp-mirror/archive
  
 fi
 
