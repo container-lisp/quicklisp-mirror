@@ -24,7 +24,7 @@ if [ $rc -eq 0 ]; then
     export APP_SCRIPT=s.lisp
     APP_MEM=4092 /usr/libexec/s2i/run
     # Trim the version list
-    # tail -1 mirror/dist/quicklisp-versions.txt > mirror/dist/quicklisp-versions.txt
+    tail -1 mirror/dist/quicklisp-versions.txt > mirror/dist/quicklisp-versions.txt
     export APP_SCRIPT=s2.lisp
     APP_MEM=4092 /usr/libexec/s2i/run
     rc=$?
