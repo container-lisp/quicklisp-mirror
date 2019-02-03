@@ -6,7 +6,7 @@ set -x
 # for fix to https://github.com/edicl/hunchentoot/issues/157
 # to roll into quicklisp.
 mkdir -vp quicklisp/local-projects
-for PKG in /tmp/src/local-projects/*); do
+for PKG in /tmp/src/local-projects/*; do
     mv $PKG quicklisp/local-projects;
 done
 ls -l quicklisp/local-projects
